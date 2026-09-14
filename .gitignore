@@ -1,0 +1,31 @@
+# Maven
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Java compiled files
+*.class
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+.env.*
+
+# Temporary files
+*.tmp
+*.temp
