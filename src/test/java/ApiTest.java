@@ -24,7 +24,7 @@ public class ApiTest {
                 .body("data.size()", org.hamcrest.Matchers.equalTo(6))
                 .body(matchesJsonSchemaInClasspath("schema/users-schema.json"));
     }
-    
+
     @Test
     public void getSingleUser() {
 
@@ -41,5 +41,44 @@ public class ApiTest {
                 .body("data.email", org.hamcrest.Matchers.equalTo("janet.weaver@reqres.in"))
                 .body("data.first_name", org.hamcrest.Matchers.equalTo("Janet"))
                 .body("data.last_name", org.hamcrest.Matchers.equalTo("Weaver"));
+    }
+
+    @Test
+    public void userNotFound() {
+
+        Response response = RestAssured
+                .given()
+                .when()
+                .get("https://reqres.in/api/users/23");
+
+        System.out.println(response.asPrettyString());
+
+        response.then()
+                .statusCode(404);
+    }
+
+    @Test
+    public void createUser() {
+
+        String requestBody = """
+                {
+                    "name": "morpheus",
+                    "job": "leader"
+                }
+                """;
+
+        Response response = RestAssured
+                .given()
+                .header("Content-Type", "application/json")
+                .body(requestBody)
+                .when()
+                .post("https://reqres.in/api/users");
+
+        System.out.println(response.asPrettyString());
+
+        response.then()
+                .statusCode(201)
+                .body("name", org.hamcrest.Matchers.equalTo("morpheus"))
+                .body("job", org.hamcrest.Matchers.equalTo("leader"));
     }
 }
